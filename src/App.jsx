@@ -117,7 +117,7 @@ function ListPage() {
       <header className="border-b p-4 text-left text-2xl font-bold 
                          bg-gray-200 dark:bg-gray-800 
                          text-gray-800 dark:text-gray-100">
-       COUNTRIES EXPLORER 🌍
+       COUNTRIES EXPLORER
       </header>
 
       <Controls query={query} setQuery={setQuery} region={region} setRegion={setRegion} sort={sort} setSort={setSort} regions={regions} count={filtered.length} />
