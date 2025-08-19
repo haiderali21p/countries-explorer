@@ -44,14 +44,14 @@ function Controls({ query, setQuery, region, setRegion, sort, setSort, regions, 
           className="flex-1 rounded-xl border px-4 py-2 outline-none 
                      focus:ring-2 focus:ring-indigo-500 
                      bg-white dark:bg-gray-700 
-                     text-gray-900 dark:text-white"
+                     text-gray-900 dark:text-gray-100"
         />
         <select
           value={region}
           onChange={(e) => setRegion(e.target.value)}
           className="rounded-xl border px-4 py-2 
                      bg-white dark:bg-gray-700 
-                     text-gray-900 dark:text-white"
+                     text-gray-900 dark:text-gray-100"
         >
           <option value="">All regions</option>
           {regions.map((r) => (
@@ -63,13 +63,13 @@ function Controls({ query, setQuery, region, setRegion, sort, setSort, regions, 
           onChange={(e) => setSort(e.target.value)}
           className="rounded-xl border px-4 py-2 
                      bg-white dark:bg-gray-700 
-                     text-gray-900 dark:text-white"
+                     text-gray-900 dark:text-gray-100"
         >
           <option value="name">Name A–Z</option>
           <option value="pop-desc">Population High → Low</option>
           <option value="pop-asc">Population Low → High</option>
         </select>
-        <span className="ml-auto text-sm text-gray-600 dark:text-gray-300">{count} results</span>
+        <span className="ml-auto text-sm text-gray-700 dark:text-gray-300">{count} results</span>
       </div>
     </section>
   );
@@ -82,7 +82,7 @@ function CountryCard({ c }) {
       <Link to={`/country/${c.cca3}`} className="block">
         <img src={c.flags.svg} alt={`${c.name.common} flag`} className="w-full h-40 object-cover" />
         <div className="p-4">
-          <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{c.name.common}</h3>
+          <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">{c.name.common}</h3>
           <p className="text-sm text-gray-700 dark:text-gray-300">Population: {formatNumber(c.population)}</p>
           <p className="text-sm text-gray-700 dark:text-gray-300">Region: {c.region}</p>
           <p className="text-sm text-gray-700 dark:text-gray-300">Capital: {c.capital?.[0] || "—"}</p>
@@ -112,11 +112,16 @@ function ListPage() {
   }, [data, query, region, sort]);
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
-      <header className="border-b p-4 text-center text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-        🌍 Countries Explorer
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      {/* Updated Header color */}
+      <header className="border-b p-4 text-center text-2xl font-bold 
+                         bg-gray-200 dark:bg-gray-800 
+                         text-gray-800 dark:text-gray-100">
+         COUNTRIES EXPLORER
       </header>
+
       <Controls query={query} setQuery={setQuery} region={region} setRegion={setRegion} sort={sort} setSort={setSort} regions={regions} count={filtered.length} />
+
       {error && <p className="p-4 text-red-500">{error}</p>}
       {loading ? (
         <p className="p-4">Loading...</p>
@@ -149,21 +154,25 @@ function DetailPage() {
   if (!country) return <p className="p-4">Loading...</p>;
 
   return (
-    <main className="max-w-4xl mx-auto p-4 text-gray-900 dark:text-white">
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-4 px-4 py-2 border rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-      >
-        ← Back
-      </button>
-      <img src={country.flags.svg} alt={`${country.name.common} flag`} className="w-full h-60 object-cover rounded-lg" />
-      <h2 className="text-2xl font-bold mt-4">{country.name.common}</h2>
-      <p><b>Official:</b> {country.name.official}</p>
-      <p><b>Capital:</b> {country.capital?.join(", ") || "—"}</p>
-      <p><b>Population:</b> {formatNumber(country.population)}</p>
-      <p><b>Region:</b> {country.region}</p>
-      <p><b>Currencies:</b> {country.currencies ? Object.values(country.currencies).map((c) => c.name).join(", ") : "—"}</p>
-      <p><b>Languages:</b> {country.languages ? Object.values(country.languages).join(", ") : "—"}</p>
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <div className="max-w-4xl mx-auto p-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-4 px-4 py-2 border rounded 
+                     bg-gray-200 hover:bg-gray-300 
+                     dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100"
+        >
+          ← Back
+        </button>
+        <img src={country.flags.svg} alt={`${country.name.common} flag`} className="w-full h-60 object-cover rounded-lg" />
+        <h2 className="text-2xl font-bold mt-4">{country.name.common}</h2>
+        <p><b>Official:</b> {country.name.official}</p>
+        <p><b>Capital:</b> {country.capital?.join(", ") || "—"}</p>
+        <p><b>Population:</b> {formatNumber(country.population)}</p>
+        <p><b>Region:</b> {country.region}</p>
+        <p><b>Currencies:</b> {country.currencies ? Object.values(country.currencies).map((c) => c.name).join(", ") : "—"}</p>
+        <p><b>Languages:</b> {country.languages ? Object.values(country.languages).join(", ") : "—"}</p>
+      </div>
     </main>
   );
 }
@@ -171,7 +180,7 @@ function DetailPage() {
 // Not Found Page
 function NotFound() {
   return (
-    <main className="p-4 text-center text-gray-900 dark:text-white">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-center text-gray-900 dark:text-gray-100">
       <h2 className="text-2xl font-bold">Page Not Found</h2>
       <Link to="/" className="text-indigo-500 underline">Go Home</Link>
     </main>
@@ -188,7 +197,7 @@ function ThemeToggle() {
     <button
       onClick={() => setDark((d) => !d)}
       className="fixed top-2 right-2 px-3 py-1.5 border rounded 
-                 bg-indigo-500 text-white hover:bg-indigo-600"
+                 bg-indigo-500 text-white hover:bg-indigo-600 shadow"
     >
       {dark ? "🌙 Dark" : "☀️ Light"}
     </button>
